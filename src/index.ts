@@ -113,14 +113,14 @@ export class SupabaseStrategy extends Strategy<Session, VerifyParams> {
       }
     | undefined
   > {
-    return (await handlePromise(this.supabaseClient.auth.api.getUser(accessToken)))[0];
+    return (await handlePromise(this.supabaseClient.auth.getUser(accessToken)))[0];
   }
 
   private async handleRefreshToken(refreshToken: string): Promise<{
     data: Session | null;
     error: ApiError | null;
   }> {
-    const [data, error] = await handlePromise(this.supabaseClient.auth.api.refreshAccessToken(refreshToken));
+    const [data, error] = await handlePromise(this.supabaseClient.auth.refreshSession({refresh_token:refreshToken}));
 
     if (error || !data) throw new Error('Error refreshing access token');
 
