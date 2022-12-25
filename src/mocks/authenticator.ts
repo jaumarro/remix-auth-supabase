@@ -14,7 +14,7 @@ export const verify = async ({ req, supabaseClient }: VerifyParams) => {
   if (!email || typeof email !== 'string' || !password || typeof password !== 'string')
     throw new Error('Need a valid email and/or password');
 
-  return supabaseClient.auth.api.signInWithEmail(email, password).then((res) => {
+  return supabaseClient.auth.signInWithPassword({ email, password }).then((res) => {
     if (res?.error || !res.data) throw new Error(res?.error?.message ?? 'No user found');
 
     return res?.data;
